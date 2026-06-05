@@ -19,6 +19,14 @@
   "scripts": {
     "test": "/"
   },
+  // Workspace to save local space for development. this will make all the node_modular saved in to the root file
+  "workspaces": [
+    "auth-service",
+    "room-service",
+    "booking-service",
+    "services/api-gateway",
+    "shared"
+  ],
   "dependencies": {
     "express": "^5.2.1"
   }
