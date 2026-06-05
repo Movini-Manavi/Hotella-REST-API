@@ -21,6 +21,10 @@ services:
       - "5001:5001"
     environment:
       - PORT=5001
+      - MONGO_URI=mongodb://mongodb:27017/hotella_auth
+      - JWT_SECRET=super_secret_jwt_key_hotella
+    depends_on:
+      - mongodb
     restart: unless-stopped
 
   room-service:
@@ -58,13 +62,21 @@ services:
 
   external-payment-api:
     build: 
-      context: .
+      context: ./services/external-payment-api
       dockerfile: Dockerfile
-    command: node services/external-payment-api/index.js
     ports:
-      - "5005:5005"
+      - "5005:8080"
     environment:
-      - PORT=5005
+      - PORT=8080
     restart: unless-stopped
 
-# Add databases (like MongoDB, PostgreSQL, or Redis) down here later!
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
