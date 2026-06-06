@@ -14,10 +14,12 @@ COPY services/email-service/package*.json ./services/email-service/
 COPY services/event-planing-and-booking_service/package*.json ./services/event-planing-and-booking_service/
 COPY services/external-payment-api/package*.json ./services/external-payment-api/
 COPY services/room_booking-service/package*.json ./services/room_booking-service/
-COPY services/room_booking-service/package*.json ./services/room_booking-service/
 
 # Install dependencies for the root and all workspaces
-RUN npm install
+RUN npm config set fetch-retry-maxtimeout 600000 && \
+    npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 10000 && \
+    npm install --verbose
 
 # Copy the rest of the application code
 COPY . .
